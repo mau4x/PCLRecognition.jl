@@ -34,6 +34,8 @@ cxx"""
 #include <pcl/recognition/hv/hv_go.h>
 """
 
+### AbstractRecognizer ###
+
 abstract AbstractRecognizer <: PCLBase
 
 for f in [:setInputRf, :setSceneCloud, :setSceneRf]
@@ -49,9 +51,16 @@ end
 recognize(recognizer::AbstractRecognizer, rototranslations, clustered_corrs) =
     icxx"$(recognizer.handle)->recognize($rototranslations, $clustered_corrs);"
 
+### AbstractVerifier ###
+
 abstract AbstractVerifier <: PCLBase
 
 verify(ver::AbstractVerifier) = icxx"$(ver.handle)->verify();"
+for f in [:setSceneCloud]
+    body = Expr(:macrocall, symbol("@icxx_str"),
+        "\$(verifier.handle)->$f(\$(cloud.handle));")
+    @eval $f(verifier::AbstractVerifier, cloud::PointCloud) = $body
+end
 
 ### Concrete types and methods ###
 
