@@ -39,7 +39,7 @@ cxx"""
 abstract AbstractRecognizer <: PCLBase
 
 for f in [:setInputRf, :setSceneCloud, :setSceneRf]
-    body = Expr(:macrocall, symbol("@icxx_str"),
+    body = Expr(:macrocall, Symbol("@icxx_str"),
         "\$(recognizer.handle)->$f(\$(cloud.handle));")
     @eval $f(recognizer::AbstractRecognizer, cloud::PointCloud) = $body
 end
@@ -57,7 +57,7 @@ abstract AbstractVerifier <: PCLBase
 
 verify(ver::AbstractVerifier) = icxx"$(ver.handle)->verify();"
 for f in [:setSceneCloud]
-    body = Expr(:macrocall, symbol("@icxx_str"),
+    body = Expr(:macrocall, Symbol("@icxx_str"),
         "\$(verifier.handle)->$f(\$(cloud.handle));")
     @eval $f(verifier::AbstractVerifier, cloud::PointCloud) = $body
 end
@@ -71,7 +71,7 @@ for (name, type_params, supername) in [
     ]
     cxxname = "pcl::$name"
     name_with_params = Expr(:curly, name, type_params...)
-    valname_with_params = Expr(:curly, symbol(name, "Val"), type_params...)
+    valname_with_params = Expr(:curly, Symbol(name, "Val"), type_params...)
     @eval begin
         @defpcltype $name_with_params <: $supername $cxxname
         @defptrconstructor $name_with_params() $cxxname
@@ -80,7 +80,7 @@ for (name, type_params, supername) in [
 end
 
 for f in [:setGCSize, :setGCThreshold]
-    body = Expr(:macrocall, symbol("@icxx_str"), "\$(g.handle)->$f(\$s);")
+    body = Expr(:macrocall, Symbol("@icxx_str"), "\$(g.handle)->$f(\$s);")
     @eval $f(g::GeometricConsistencyGrouping, s) = $body
 end
 
@@ -90,12 +90,12 @@ for f in [
         :setUseInterpolation,
         :setUseDistanceWeight,
         ]
-    body = Expr(:macrocall, symbol("@icxx_str"), "\$(h.handle)->$f(\$s);")
+    body = Expr(:macrocall, Symbol("@icxx_str"), "\$(h.handle)->$f(\$s);")
     @eval $f(h::Hough3DGrouping, s) = $body
 end
 
 for f in [:setOcclusionCloud]
-    body = Expr(:macrocall, symbol("@icxx_str"),
+    body = Expr(:macrocall, Symbol("@icxx_str"),
         "\$(ver.handle)->$f(\$(cloud.handle));")
     @eval $f(ver::GlobalHypothesesVerification, cloud::PointCloud) = $body
 end
@@ -114,7 +114,7 @@ for f in [
         :setRadiusNormals,
         :setDetectClutter,
         ]
-    body = Expr(:macrocall, symbol("@icxx_str"), "\$(ver.handle)->$f(\$v);")
+    body = Expr(:macrocall, Symbol("@icxx_str"), "\$(ver.handle)->$f(\$v);")
     @eval $f(ver::GlobalHypothesesVerification, v) = $body
 end
 
