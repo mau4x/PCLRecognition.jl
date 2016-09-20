@@ -11,8 +11,6 @@ export AbstractRecognizer, setInputRf, setSceneCloud, setSceneRf,
     setClutterRegularizer, setRadiusNormals, setDetectClutter, getMask
 
 
-
-
 using LibPCL
 using PCLCommon
 using PCLSearch
