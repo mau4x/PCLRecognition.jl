@@ -1,3 +1,13 @@
+"""
+The PCL recognition module contains algorithms used for Object Recognition
+applications.
+
+http://docs.pointclouds.org/trunk/group__recognition.html
+
+## Exports
+
+$(EXPORTS)
+"""
 module PCLRecognition
 
 export AbstractRecognizer, setInputRf, setSceneCloud, setSceneRf,
@@ -10,7 +20,7 @@ export AbstractRecognizer, setInputRf, setSceneCloud, setSceneRf,
     setInlierThreshold, setOcclusionThreshold, setRegularizer, setRadiusClutter,
     setClutterRegularizer, setRadiusNormals, setDetectClutter, getMask
 
-
+using DocStringExtensions
 using LibPCL
 using PCLCommon
 using PCLSearch
