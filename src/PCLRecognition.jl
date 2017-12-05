@@ -44,7 +44,7 @@ cxx"""
 
 ### AbstractRecognizer ###
 
-abstract AbstractRecognizer <: PCLBase
+abstract type AbstractRecognizer <: PCLBase end
 
 for f in [:setInputRf, :setSceneCloud, :setSceneRf]
     body = Expr(:macrocall, Symbol("@icxx_str"),
@@ -61,7 +61,7 @@ recognize(recognizer::AbstractRecognizer, rototranslations, clustered_corrs) =
 
 ### AbstractVerifier ###
 
-abstract AbstractVerifier <: PCLBase
+abstract type AbstractVerifier <: PCLBase end
 
 verify(ver::AbstractVerifier) = icxx"$(ver.handle)->verify();"
 for f in [:setSceneCloud]
